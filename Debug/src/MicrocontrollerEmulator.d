@@ -1,6 +1,10 @@
 src/MicrocontrollerEmulator.d: ../src/MicrocontrollerEmulator.cpp \
- ../src/Facade/Facade.h ../src/Facade/../Utilities/Utils.h
+ ../src/Facade.h ../src/Utils.h ../src/Microcontroller.h ../src/Mops.h
 
-../src/Facade/Facade.h:
+../src/Facade.h:
 
-../src/Facade/../Utilities/Utils.h:
+../src/Utils.h:
+
+../src/Microcontroller.h:
+
+../src/Mops.h:

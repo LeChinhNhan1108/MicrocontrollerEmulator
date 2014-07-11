@@ -4,13 +4,22 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/MicrocontrollerEmulator.cpp 
+../src/Facade.cpp \
+../src/MicrocontrollerEmulator.cpp \
+../src/Mops.cpp \
+../src/Utils.cpp 
 
 OBJS += \
-./src/MicrocontrollerEmulator.o 
+./src/Facade.o \
+./src/MicrocontrollerEmulator.o \
+./src/Mops.o \
+./src/Utils.o 
 
 CPP_DEPS += \
-./src/MicrocontrollerEmulator.d 
+./src/Facade.d \
+./src/MicrocontrollerEmulator.d \
+./src/Mops.d \
+./src/Utils.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

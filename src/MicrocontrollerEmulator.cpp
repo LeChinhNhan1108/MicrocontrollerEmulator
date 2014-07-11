@@ -6,19 +6,24 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-#include "Facade/Facade.h"
+#include "Facade.h"
 
 int main() {
+
+	Microcontroller* mcontroller;
 	cout << "Microcontroller Emulator. Connect (c) or show help (h) " << endl;
 	char input = 's';
 
 	while (input != 'q') {
 		cout << "> ";
 		cin >> input;
+		clearCin();
+
 		input = convertToLowerCase(input);
 
 		switch (input) {
 		case 'c':
+			mcontroller = connectToMicrocontroller();
 			break;
 		case 'd':
 			break;
@@ -34,6 +39,7 @@ int main() {
 		case 'm':
 			break;
 		case 'r':
+			reset(mcontroller);
 			break;
 		case 's':
 			break;
@@ -41,7 +47,7 @@ int main() {
 			cout << "Bye Bye Bye " << endl;
 			break;
 		default:
-			cerr << "Wrong command. Try again" << endl;
+			cerr << "Wrong command. Try again " << (int)input << endl;
 			break;
 		}
 	}

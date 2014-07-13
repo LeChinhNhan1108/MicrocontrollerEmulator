@@ -12,12 +12,10 @@
 
 class Mops:public Microcontroller{
 public:
-	Mops(){};
-	~Mops(){};
+	Mops():Microcontroller(1024){
+		setStatusString("Mops");
+	};
 	void reset();
-	void lookAtMemory();
-	void modifyMemory();
-	void displayMemory();
 	void execute();
 };
 

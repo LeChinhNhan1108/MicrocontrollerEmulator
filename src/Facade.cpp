@@ -23,16 +23,16 @@ Microcontroller* connectToMicrocontroller() {
 		convertToLowerCase(micro_type);
 		valid = true;
 
-		if (micro_type == "r500"){
-			cout << "R500 selected" << endl;
+		if (micro_type == "r500") {
+			cout << "#R500 selected" << endl;
 			return new Mops;
-		}else if (micro_type == "pic32f42"){
+		} else if (micro_type == "pic32f42") {
 			cout << "PIC32F42 selected" << endl;
-			return NULL;
-		}else if (micro_type == "34hc22"){
+			return new Macrochip;
+		} else if (micro_type == "34hc22") {
 			cout << "34HC22 selected" << endl;
 			return NULL;
-		}else{
+		} else {
 			valid = false;
 			cout << "Invalid input. Please try again" << endl;
 			return NULL;
@@ -42,10 +42,27 @@ Microcontroller* connectToMicrocontroller() {
 
 }
 
-void reset(Microcontroller* mcontroller){
-	mcontroller->reset();
-}
+void displayAllMemory(Microcontroller& mcontroller) {
+	unsigned char* memory = mcontroller.getMemory();
 
+	for (int i = 0; i < mcontroller.getSize(); i += 16) {
+		if (i % 16 == 0) {
+			cout << setw(4) << setfill('0') << convertIntToHexString(i) << "  ";
+			for (int j = 0; j < 16; j++) {
+				cout << setw(2) << setfill('0') << convertIntToHexString(*(memory+i+j)) << " ";
+				if (j == 7) cout << " ";
+			}
+			cout << endl;
+		}
+	}
+
+}
+void executeFromCurrentPC(Microcontroller& mcontroller) {
+	mcontroller.execute();
+}
+void executeFromLocation(Microcontroller& mcontroller) {
+	mcontroller.execute();
+}
 void displayHelp() {
 	int width1 = 4;
 	int width2 = 50;
@@ -72,4 +89,53 @@ void displayHelp() {
 			<< "# quit the program" << endl;
 	cout << "---------------------------------------------------" << endl;
 
+}
+void lookAtMemory(Microcontroller& mcontroller) {
+	string input;
+	cout << "location? ";
+	getline(cin, input);
+
+	int value = convertHexToInt(input);
+
+	if (value == -1 || value < 0 || value > mcontroller.getSize()) {
+		cerr << "Invalid input" << endl;
+		return;
+	}
+
+	cout << "Value " << "0x"
+			<< convertIntToHexString((int) *(mcontroller.getMemory() + value))
+			<< endl;
+}
+void modifyMemory(Microcontroller& mcontroller) {
+	string input;
+	cout << "location? ";
+	getline(cin, input);
+
+	int location = convertHexToInt(input);
+
+	if (location == -1 || location < 0 || location > mcontroller.getSize()) {
+		cerr << "Invalid input" << endl;
+		return;
+	}
+
+	cout << "Old value " << "0x"
+			<< convertIntToHexString(
+					(int) *(mcontroller.getMemory() + location)) << endl;
+
+	cout << "new? ";
+	string data;
+	getline(cin, data);
+
+	int value = convertHexToInt(data);
+	if (value == -1) {
+		cerr << "Should be in format 0x**" << endl;
+	} else {
+		*(mcontroller.getMemory() + location) = value;
+	}
+}
+void reset(Microcontroller& mcontroller) {
+	mcontroller.reset();
+}
+void displayPCAndRegister() {
+	cout << "Display PC and Register " << endl;
 }

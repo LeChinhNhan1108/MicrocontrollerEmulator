@@ -11,15 +11,16 @@
 #include "Utils.h"
 #include "Microcontroller.h"
 #include "Mops.h"
+#include "Macrochip.h"
 
 Microcontroller* connectToMicrocontroller();
-void displayAllMemory();
-void executeFromCurrentPC();
-void executeFromLocation();
+void displayAllMemory(Microcontroller& mcontroller);
+void executeFromCurrentPC(Microcontroller& mcontroller);
+void executeFromLocation(Microcontroller& mcontroller);
 void displayHelp();
-void lookAtMemory();
-void modifyMemory();
-void reset(Microcontroller* mcontroller);
+void lookAtMemory(Microcontroller& mcontroller);
+void modifyMemory(Microcontroller& mcontroller);
+void reset(Microcontroller& mcontroller);
 void displayPCAndRegister();
 void quit();
 

@@ -12,13 +12,19 @@
 #include <ctype.h>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include <boost/algorithm/string.hpp>
-
-
+#include <stdlib.h>
 using namespace std;
+
+
 char convertToLowerCase(char input);
 void convertToLowerCase(string& input);
 
 void clearCin();
+
+int convertHexToInt(string input);
+string convertIntToHexString(int value);
+
 
 #endif /* UTILS_H_ */

@@ -8,19 +8,7 @@
 #include "Mops.h"
 
 void Mops::reset(){
-	cout << "Morps reset" << endl;
-}
-
-void Mops::lookAtMemory(){
-	cout << "Morps look at mem" << endl;
-}
-
-void Mops::modifyMemory(){
-	cout << "Morps modify " << endl;
-}
-
-void Mops::displayMemory(){
-	cout << "Morps display memory" << endl;
+	cout << "Morps reset " << endl;
 }
 
 void Mops::execute(){

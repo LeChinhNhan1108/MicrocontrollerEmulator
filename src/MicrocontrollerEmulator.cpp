@@ -10,7 +10,7 @@
 
 int main() {
 
-	Microcontroller* mcontroller;
+	Microcontroller* mcontroller = NULL;
 	cout << "Microcontroller Emulator. Connect (c) or show help (h) " << endl;
 	char input = 's';
 
@@ -26,31 +26,51 @@ int main() {
 			mcontroller = connectToMicrocontroller();
 			break;
 		case 'd':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				displayAllMemory(*mcontroller);
 			break;
 		case 'e':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				executeFromCurrentPC(*mcontroller);
 			break;
 		case 'g':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				executeFromLocation(*mcontroller);
 			break;
 		case 'h':
 			displayHelp();
 			break;
 		case 'l':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				lookAtMemory(*mcontroller);
 			break;
 		case 'm':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				modifyMemory(*mcontroller);
 			break;
 		case 'r':
-			reset(mcontroller);
+			reset(*mcontroller);
 			break;
 		case 's':
 			break;
 		case 'q':
-			cout << "Bye Bye Bye " << endl;
 			break;
 		default:
-			cerr << "Wrong command. Try again " << (int)input << endl;
+			cerr << "Wrong command. Try again " << (int) input << endl;
 			break;
 		}
 	}
-
+	delete mcontroller;
+	cout << "End Program" << endl;
 	return 0;
 }

@@ -5,18 +5,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
 ../src/Facade.cpp \
+../src/Macrochip.cpp \
 ../src/MicrocontrollerEmulator.cpp \
 ../src/Mops.cpp \
 ../src/Utils.cpp 
 
 OBJS += \
 ./src/Facade.o \
+./src/Macrochip.o \
 ./src/MicrocontrollerEmulator.o \
 ./src/Mops.o \
 ./src/Utils.o 
 
 CPP_DEPS += \
 ./src/Facade.d \
+./src/Macrochip.d \
 ./src/MicrocontrollerEmulator.d \
 ./src/Mops.d \
 ./src/Utils.d 

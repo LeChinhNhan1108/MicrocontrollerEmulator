@@ -16,7 +16,7 @@
 Microcontroller* connectToMicrocontroller();
 void displayAllMemory(Microcontroller& mcontroller);
 void executeFromCurrentPC(Microcontroller& mcontroller);
-void executeFromLocation(Microcontroller& mcontroller);
+void executeFromLocation(Microcontroller& mcontroller, int location);
 void displayHelp();
 void lookAtMemory(Microcontroller& mcontroller);
 void modifyMemory(Microcontroller& mcontroller);

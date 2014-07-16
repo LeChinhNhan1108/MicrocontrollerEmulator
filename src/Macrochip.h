@@ -16,6 +16,6 @@ public:
 		setStatusString("Macrochip");
 	};
 	void reset();
-	void execute();
+	void execute(int location);
 };
 #endif /* MACROCHIP_H_ */

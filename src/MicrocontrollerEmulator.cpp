@@ -23,6 +23,8 @@ int main() {
 
 		switch (input) {
 		case 'c':
+			if (mcontroller != NULL)
+				delete mcontroller;
 			mcontroller = connectToMicrocontroller();
 			break;
 		case 'd':
@@ -41,7 +43,7 @@ int main() {
 			if (mcontroller == NULL)
 				cerr << "Micro controller is not connected" << endl;
 			else
-				executeFromLocation(*mcontroller);
+				executeFromLocation(*mcontroller,-1);
 			break;
 		case 'h':
 			displayHelp();

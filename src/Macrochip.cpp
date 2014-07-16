@@ -11,6 +11,6 @@ void Macrochip::reset(){
 	cout << "Macrochip reset " << endl;
 }
 
-void Macrochip::execute(){
-	cout << "Macrochip execute" << endl;
+void Macrochip::execute(int location){
+	cout << "Macrochip execute from " << location <<endl;
 }

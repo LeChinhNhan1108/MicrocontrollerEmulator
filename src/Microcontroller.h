@@ -22,7 +22,10 @@ public:
 	int getPC() {
 		return pc;
 	}
-	int getSize(){
+	void setPC(int npc) {
+		pc = npc;
+	}
+	int getSize() {
 		return msize;
 	}
 	string getStatusString() {
@@ -42,14 +45,17 @@ public:
 		statusString = "";
 		memory = new unsigned char[size];
 		for (int i = 0; i < size; i++)
-			*(memory+i) = rand()%255;
+			*(memory + i) = 0;
 	}
 	virtual ~Microcontroller() {
 		delete[] memory;
 		cout << "Destructor called" << endl;
 	}
-	virtual void reset() {}
-	virtual void execute() {}
+	virtual void reset() {
+	}
+	virtual void execute(int location) {
+		cout << "Micro controller execute" << endl;
+	}
 
 };
 

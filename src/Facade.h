@@ -21,7 +21,7 @@ void displayHelp();
 void lookAtMemory(Microcontroller& mcontroller);
 void modifyMemory(Microcontroller& mcontroller);
 void reset(Microcontroller& mcontroller);
-void displayPCAndRegister();
+void displayPCAndRegister(Microcontroller& mcontroller);
 void quit();
 
 

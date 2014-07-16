@@ -8,7 +8,9 @@
 #include "Mops.h"
 
 void Mops::reset() {
-	cout << "Morps reset " << endl;
+	cout << "Mops reset " << endl;
+	setPC(0);
+	memset(getMemory(),0,getSize());
 }
 
 void Mops::execute(int location) {
@@ -22,11 +24,11 @@ void Mops::execute(int location) {
 	case SUBTRACT:
 		substract(location);
 		break;
-	case GOTO:
-		gotoOpcode(location);
+	case ALWAYS_BRANCH:
+		alwaysBranch(location);
 		break;
-	case BRANCH:
-		branch(location);
+	case BRANCH_RELATIVE:
+		branchRelative(location);
 		break;
 	case HALT:
 		halt(location);
@@ -40,7 +42,7 @@ void Mops::execute(int location) {
 }
 
 void Mops::add(int location) {
-	cout << "Morps add from " << location << endl;
+	cout << "Mops add from " << location << endl;
 
 	int destination = location + 4;
 	if (destination > getSize()) {
@@ -48,92 +50,101 @@ void Mops::add(int location) {
 		return;
 	}
 
-//	*(getMemory() + location) = convertHexToInt("0a");
-//	*(getMemory() + location + 1) = convertHexToInt("0b");
-//	*(getMemory() + location + 2) = convertHexToInt("03");
-//	*(getMemory() + location + 3) = convertHexToInt("0f");
-//	*(getMemory() + location + 4) = convertHexToInt("13");
-//	*(getMemory() + location + 783) = convertHexToInt("fa");
+	int value = *(getMemory() + location + 1);
+	int high = *(getMemory() + location + 2);
+	int low = *(getMemory() + location + 3);
+
+	int address = (high << 8 | low);
+	if (address > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
+
+	int currentValue = *(getMemory() + address);
+	int result = currentValue + value;
+
+	if (result >= 256)
+		result -= 256;
+
+	*(getMemory() + address) = result;
+
+	setPC(destination);
+	execute(getPC());
+
+}
+
+void Mops::substract(int location) {
+	cout << "Mops minus from " << location << endl;
+
+	int destination = location + 4;
+	if (destination > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
 
 	int value = *(getMemory() + location + 1);
 	int high = *(getMemory() + location + 2);
 	int low = *(getMemory() + location + 3);
 
 	int address = (high << 8 | low);
-
-	if (address <= getSize()) {
-		int currentValue = *(getMemory() + address);
-		int result = currentValue + value;
-
-//		cout << "Current Value " << currentValue << endl;
-//		cout << "Result " << result << endl;
-
-
-		if (result >= 256 )
-			result -= 256;
-
-		*(getMemory() + address) = result;
+	if (address > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
 	}
 
-//	cout << "Value " << value << endl;
-//	cout << "Address " << address << endl;
+	int currentValue = *(getMemory() + address);
+	int result = currentValue - value;
 
+	if (result < 0)
+		result = 0;
+
+	*(getMemory() + address) = result;
 	setPC(destination);
 	execute(getPC());
 }
 
-void Mops::substract(int location){
+void Mops::alwaysBranch(int location) {
 
-	cout << "Morps minus from " << location << endl;
+	if (location + 2 > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
 
-		int destination = location + 4;
-		if (destination > getSize()) {
-			cerr << "SIGWEED. Program executed past top of memory" << endl;
-			return;
-		}
+	int high = *(getMemory() + location + 1);
+	int low = *(getMemory() + location + 2);
 
-//		*(getMemory() + location + 1) = convertHexToInt("fa");
-//		*(getMemory() + location + 2) = convertHexToInt("03");
-//		*(getMemory() + location + 3) = convertHexToInt("0f");
-//		*(getMemory() + location + 4) = convertHexToInt("ff");
-//		*(getMemory() + location + 783) = convertHexToInt("ff");
+	int address = (high << 8 | low);
+	if (address > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
 
-		int value = *(getMemory() + location + 1);
-		int high = *(getMemory() + location + 2);
-		int low = *(getMemory() + location + 3);
-
-		int address = (high << 8 | low);
-
-		if (address <= getSize()) {
-			int currentValue = *(getMemory() + address);
-			int result = currentValue - value;
-
-//			cout << "Current Value " << currentValue << endl;
-//			cout << "Result " << result << endl;
-
-			if (result < 0 )
-				result = 0;
-
-			*(getMemory() + address) = result;
-		}
-
-		cout << "Value " << value << endl;
-		cout << "Address " << address << endl;
-
-		setPC(destination);
-		execute(getPC());
-
+	setPC(address);
+	execute(getPC());
 }
 
-void Mops::gotoOpcode(int location){
+void Mops::branchRelative(int location) {
 
+	if (location + 1 > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
+
+	int value = *(getMemory() + location + 1);
+	if (value >= 128)
+		value = value - 256;
+
+	int currentPc = getPC();
+	if (currentPc + value > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
+
+	setPC(currentPc + value);
+	execute(getPC());
 }
 
-void Mops::branch(int location){
-
-}
-
-void Mops::halt(int location){
+void Mops::halt(int location) {
 	cout << "Program halted" << endl;
 }
 

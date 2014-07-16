@@ -64,6 +64,7 @@ int main() {
 			reset(*mcontroller);
 			break;
 		case 's':
+			displayPCAndRegister(*mcontroller);
 			break;
 		case 'q':
 			break;

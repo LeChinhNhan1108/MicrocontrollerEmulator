@@ -29,6 +29,7 @@ public:
 		return msize;
 	}
 	string getStatusString() {
+		statusString = "Program counter is at " + convertIntToHexString(pc);
 		return statusString;
 	}
 	void setStatusString(string ss) {

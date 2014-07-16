@@ -49,8 +49,10 @@ void displayAllMemory(Microcontroller& mcontroller) {
 		if (i % 16 == 0) {
 			cout << setw(4) << setfill('0') << convertIntToHexString(i) << "  ";
 			for (int j = 0; j < 16; j++) {
-				cout << setw(2) << setfill('0') << convertIntToHexString(*(memory+i+j)) << " ";
-				if (j == 7) cout << " ";
+				cout << setw(2) << setfill('0')
+						<< convertIntToHexString(*(memory + i + j)) << " ";
+				if (j == 7)
+					cout << " ";
 			}
 			cout << endl;
 		}
@@ -61,14 +63,14 @@ void executeFromCurrentPC(Microcontroller& mcontroller) {
 	executeFromLocation(mcontroller, mcontroller.getPC());
 }
 void executeFromLocation(Microcontroller& mcontroller, int location) {
-	if (location == -1){
+	if (location == -1) {
 		cout << "location? ";
 		string input;
-		getline(cin,input);
-		location  = convertHexToInt(input);
+		getline(cin, input);
+		location = convertHexToInt(input);
 	}
 
-	if (location == -1){
+	if (location == -1) {
 		cerr << "Invalid input" << endl;
 		return;
 	}
@@ -114,8 +116,8 @@ void lookAtMemory(Microcontroller& mcontroller) {
 	}
 
 	cout << "Value " << "0x"
-			<< convertIntToHexString((int) *(mcontroller.getMemory() + location))
-			<< endl;
+			<< convertIntToHexString(
+					(int) *(mcontroller.getMemory() + location)) << endl;
 }
 void modifyMemory(Microcontroller& mcontroller) {
 	string input;
@@ -147,6 +149,17 @@ void modifyMemory(Microcontroller& mcontroller) {
 void reset(Microcontroller& mcontroller) {
 	mcontroller.reset();
 }
-void displayPCAndRegister() {
-	cout << "Display PC and Register " << endl;
+void displayPCAndRegister(Microcontroller& mcontroller) {
+
+	Macrochip* macro = dynamic_cast<Macrochip*>(&mcontroller);
+
+	if (macro != NULL) {
+		cout << mcontroller.getStatusString()
+			 << " -- Register Value "
+			 << macro->getW() << endl;
+	} else {
+		cout << mcontroller.getStatusString() << endl;
+	}
+
 }
+

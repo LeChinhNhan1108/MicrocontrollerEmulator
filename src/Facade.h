@@ -12,6 +12,7 @@
 #include "Microcontroller.h"
 #include "Mops.h"
 #include "Macrochip.h"
+#include "Rotamola.h"
 
 Microcontroller* connectToMicrocontroller();
 void displayAllMemory(Microcontroller& mcontroller);

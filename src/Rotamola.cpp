@@ -1,37 +1,41 @@
 /*
- * Macrochip.cpp
+ * Rotamola.cpp
  *
- *  Created on: Jul 11, 2014
+ *  Created on: Jul 17, 2014
  *      Author: root
  */
 
-#include "Macrochip.h"
+#include "Rotamola.h"
 
-void Macrochip::reset() {
-	setPC(0);
-	setW(0);
+void Rotamola::reset() {
+	setPC(509);
 }
 
-void Macrochip::execute(int location) {
+void Rotamola::execute(int location) {
+
 	unsigned char opcode = *(getMemory() + location);
+
 	switch (opcode) {
-	case MOVE_TO_W:
-		moveToW(location);
+	case MOVE_A_TO_MEM:
+		moveAToMem(location);
 		break;
-	case MOVE_TO_MEM:
-		moveWToMemory(location);
+	case LOAD_A:
+		loadA(location);
 		break;
-	case ADD_TO_W:
-		addToW(location);
+	case LOAD_B:
+		loadB(location);
 		break;
-	case SUBSTRACT_FROM_W:
-		substractFromW(location);
+	case INCREASE_A:
+		increaseA(location);
 		break;
 	case ALWAYS_BRANCH:
 		alwaysBranch(location);
 		break;
-	case BRANCH_NOT_EQUAL:
-		branchNotEqual(location);
+	case BRANCH_IF_A_LESS_THAN_B:
+		branchIfALessThanB(location);
+		break;
+	case BRANCH_IF_LESS_THAN_A:
+		branchIfLessThanA(location);
 		break;
 	case HALT:
 		halt(location);
@@ -41,21 +45,10 @@ void Macrochip::execute(int location) {
 				<< endl;
 		break;
 	}
+
 }
 
-void Macrochip::moveToW(int location) {
-
-	if (location + 2 > getSize()) {
-		cerr << "SIGWEED. Program executed past top of memory" << endl;
-		return;
-	}
-
-	setW(*(getMemory() + location + 1));
-	setPC(location + 2);
-	execute(getPC());
-}
-void Macrochip::moveWToMemory(int location) {
-
+void Rotamola::moveAToMem(int location) {
 	int destination = location + 3;
 	if (destination > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
@@ -71,51 +64,51 @@ void Macrochip::moveWToMemory(int location) {
 		return;
 	}
 
-	*(getMemory() + address) = getW();
-
-	setPC(destination);
-	execute(getPC());
-}
-void Macrochip::addToW(int location) {
-	int destination = location + 2;
-	if (destination > getSize()) {
-		cerr << "SIGWEED. Program executed past top of memory" << endl;
-		return;
-	}
-
-	int value = *(getMemory() + location + 1);
-	int result = getW() + value;
-
-	if (result >= 256)
-		result -= 256;
-
-	setW(result);
+	*(getMemory() + address) = getA();
 
 	setPC(destination);
 	execute(getPC());
 
 }
-void Macrochip::substractFromW(int location) {
-	int destination = location + 2;
-	if (destination > getSize()) {
+void Rotamola::loadA(int location) {
+	if (location + 2 > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
 		return;
 	}
 
-	int value = *(getMemory() + location + 1);
-	int result = getW() - value;
+	setA(*(getMemory() + location + 1));
+	setPC(location + 2);
+	execute(getPC());
+}
+void Rotamola::loadB(int location) {
+	if (location + 2 > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
 
-	if (result < 0)
+	setB(*(getMemory() + location + 1));
+	setPC(location + 2);
+	execute(getPC());
+
+}
+void Rotamola::increaseA(int location) {
+	if (location + 1 > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
+
+	int currentA = getA();
+	int result = currentA + 1;
+
+	if (result > 255)
 		result = 0;
 
-	setW(result);
-
-	setPC(destination);
+	setA(result);
+	setPC(location + 1);
 	execute(getPC());
 
 }
-void Macrochip::alwaysBranch(int location) {
-
+void Rotamola::alwaysBranch(int location) {
 	if (location + 2 > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
 		return;
@@ -132,18 +125,15 @@ void Macrochip::alwaysBranch(int location) {
 
 	setPC(address);
 	execute(getPC());
-
 }
-void Macrochip::branchNotEqual(int location) {
+void Rotamola::branchIfALessThanB(int location) {
 
-	int comparision = *(getMemory() + location + 1);
-
-	int high = *(getMemory() + location + 2);
-	int low = *(getMemory() + location + 3);
+	int high = *(getMemory() + location + 1);
+	int low = *(getMemory() + location + 2);
 
 	int address = (high << 8) | low;
 
-	int finalDestination = (getW() != comparision) ? address : (location + 4);
+	int finalDestination = (getA() < getB()) ? address : (location + 3);
 
 	if (finalDestination > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
@@ -153,7 +143,25 @@ void Macrochip::branchNotEqual(int location) {
 	setPC(address);
 	execute(getPC());
 }
+void Rotamola::branchIfLessThanA(int location) {
 
-void Macrochip::halt(int location) {
+	int comparision = *(getMemory() + location + 1);
+
+	int high = *(getMemory() + location + 2);
+	int low = *(getMemory() + location + 3);
+
+	int address = (high << 8) | low;
+
+	int finalDestination = (comparision < getA()) ? address : (location + 4);
+
+	if (finalDestination > getSize()) {
+		cerr << "SIGWEED. Program executed past top of memory" << endl;
+		return;
+	}
+
+	setPC(address);
+	execute(getPC());
+}
+void Rotamola::halt(int location) {
 	cout << "Program halted" << endl;
 }

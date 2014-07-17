@@ -31,7 +31,7 @@ Microcontroller* connectToMicrocontroller() {
 			return new Macrochip;
 		} else if (micro_type == "34hc22") {
 			cout << "34HC22 selected" << endl;
-			return NULL;
+			return new Rotamola;
 		} else {
 			valid = false;
 			cout << "Invalid input. Please try again" << endl;
@@ -152,11 +152,15 @@ void reset(Microcontroller& mcontroller) {
 void displayPCAndRegister(Microcontroller& mcontroller) {
 
 	Macrochip* macro = dynamic_cast<Macrochip*>(&mcontroller);
+	Rotamola* rotamola = dynamic_cast<Rotamola*>(&mcontroller);
 
 	if (macro != NULL) {
-		cout << mcontroller.getStatusString()
-			 << " -- Register Value "
-			 << macro->getW() << endl;
+		cout << mcontroller.getStatusString() << " -- Register W Value 0x"
+				<< convertIntToHexString(macro->getW()) << endl;
+	} else if (rotamola != NULL) {
+		cout << mcontroller.getStatusString() << " -- Register A Value 0x"
+				<< convertIntToHexString(rotamola->getA()) << " -- Register B Value 0x"
+				<< convertIntToHexString(rotamola->getB()) << endl;
 	} else {
 		cout << mcontroller.getStatusString() << endl;
 	}

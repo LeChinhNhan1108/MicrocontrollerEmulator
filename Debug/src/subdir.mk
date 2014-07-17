@@ -8,6 +8,7 @@ CPP_SRCS += \
 ../src/Macrochip.cpp \
 ../src/MicrocontrollerEmulator.cpp \
 ../src/Mops.cpp \
+../src/Rotamola.cpp \
 ../src/Utils.cpp 
 
 OBJS += \
@@ -15,6 +16,7 @@ OBJS += \
 ./src/Macrochip.o \
 ./src/MicrocontrollerEmulator.o \
 ./src/Mops.o \
+./src/Rotamola.o \
 ./src/Utils.o 
 
 CPP_DEPS += \
@@ -22,6 +24,7 @@ CPP_DEPS += \
 ./src/Macrochip.d \
 ./src/MicrocontrollerEmulator.d \
 ./src/Mops.d \
+./src/Rotamola.d \
 ./src/Utils.d 
 
 

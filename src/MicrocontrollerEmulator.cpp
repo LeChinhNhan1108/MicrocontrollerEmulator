@@ -43,7 +43,7 @@ int main() {
 			if (mcontroller == NULL)
 				cerr << "Micro controller is not connected" << endl;
 			else
-				executeFromLocation(*mcontroller,-1);
+				executeFromLocation(*mcontroller, -1);
 			break;
 		case 'h':
 			displayHelp();
@@ -61,10 +61,16 @@ int main() {
 				modifyMemory(*mcontroller);
 			break;
 		case 'r':
-			reset(*mcontroller);
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				reset(*mcontroller);
 			break;
 		case 's':
-			displayPCAndRegister(*mcontroller);
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				displayPCAndRegister(*mcontroller);
 			break;
 		case 'q':
 			break;

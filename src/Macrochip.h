@@ -21,16 +21,6 @@ private:
 	static const unsigned char BRANCH_NOT_EQUAL = 0x70;
 	static const unsigned char HALT = 0xff;
 
-public:
-	Macrochip() : Microcontroller(1536) {
-		setStatusString("Macrochip");
-		w = 0;
-	}
-	void setW(int w_) {w = w_;}
-	int getW(){return w;}
-
-	void reset();
-	void execute(int location);
 	void moveToW(int location);
 	void moveWToMemory(int location);
 	void addToW(int location);
@@ -38,5 +28,22 @@ public:
 	void alwaysBranch(int location);
 	void branchNotEqual(int location);
 	void halt(int location);
+
+public:
+	Macrochip() :
+			Microcontroller(1536) {
+		setStatusString("Macrochip");
+		w = 0;
+	}
+	void setW(int w_) {
+		w = w_;
+	}
+	int getW() {
+		return w;
+	}
+
+	void reset();
+	void execute(int location);
+
 };
 #endif /* MACROCHIP_H_ */

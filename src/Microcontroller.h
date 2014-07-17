@@ -39,7 +39,7 @@ public:
 		return memory;
 	}
 
-	// Common feature of Micro-controller
+
 	Microcontroller(int size) {
 		pc = 0;
 		msize = size;
@@ -50,14 +50,11 @@ public:
 	}
 	virtual ~Microcontroller() {
 		delete[] memory;
-		cout << "Destructor called" << endl;
 	}
 	virtual void reset() {
 	}
 	virtual void execute(int location) {
-		cout << "Micro controller execute" << endl;
 	}
-
 };
 
 #endif /* MICROCONTROLLER_H_ */

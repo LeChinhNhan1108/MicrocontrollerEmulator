@@ -23,6 +23,8 @@ void lookAtMemory(Microcontroller& mcontroller);
 void modifyMemory(Microcontroller& mcontroller);
 void reset(Microcontroller& mcontroller);
 void displayPCAndRegister(Microcontroller& mcontroller);
+void writeToFile(Microcontroller& mcontroller);
+void readFromFile(Microcontroller& mcontroller);
 void quit();
 
 

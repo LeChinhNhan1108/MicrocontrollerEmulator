@@ -39,17 +39,20 @@ public:
 	Rotamola() :
 			Microcontroller(512) {
 		a = 0;
-		b = 0;
+		b = 1;
 	}
 
-	int getA(){return a;}
-	int getB(){return b;}
-	void setA(int a_){a = a_;}
-	void setB(int b_){b = b_;}
+	int getA(){return *(getMemory() + a);}
+	int getB(){return *(getMemory() + b);}
+
+	void setA(int a_){*(getMemory() + a) = a_;}
+	void setB(int b_){*(getMemory() + b) = b_;}
 
 	void reset();
 	void execute(int location);
 
+	void writeToFile();
+	void readFromFile();
 };
 
 #endif /* ROTAMOLA_H_ */

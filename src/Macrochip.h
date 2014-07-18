@@ -35,15 +35,15 @@ public:
 		setStatusString("Macrochip");
 		w = 0;
 	}
-	void setW(int w_) {
-		w = w_;
-	}
-	int getW() {
-		return w;
-	}
+
+	void setW(int w_) {*(getMemory() + w) = w_;}
+	int getW() {return *(getMemory() + w);}
 
 	void reset();
 	void execute(int location);
+
+	void writeToFile();
+	void readFromFile();
 
 };
 #endif /* MACROCHIP_H_ */

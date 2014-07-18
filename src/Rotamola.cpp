@@ -165,3 +165,15 @@ void Rotamola::branchIfLessThanA(int location) {
 void Rotamola::halt(int location) {
 	cout << "Program halted" << endl;
 }
+
+
+void Rotamola::writeToFile(){
+	cout << "Rotamola write file " << endl;
+}
+
+void Rotamola::readFromFile(){
+	cout << "Rotamola read file " << endl;
+}
+
+
+

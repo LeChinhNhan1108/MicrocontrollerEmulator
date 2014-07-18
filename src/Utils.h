@@ -9,12 +9,15 @@
 #define UTILS_H_
 
 #include <string>
+#include <cstring>
 #include <ctype.h>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <boost/algorithm/string.hpp>
 #include <stdlib.h>
+#include <fstream>
+#include <vector>
 using namespace std;
 
 
@@ -24,7 +27,11 @@ void convertToLowerCase(string& input);
 void clearCin();
 
 int convertHexToInt(string input);
-string convertIntToHexString(int value);
+string convertIntToHexString(int value, int width = 2);
+
+int convertStringToInt(string input);
+
+vector<string> split(string s, string delim);
 
 
 #endif /* UTILS_H_ */

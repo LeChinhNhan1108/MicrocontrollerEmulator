@@ -10,7 +10,7 @@
 void Mops::reset() {
 	cout << "Mops reset " << endl;
 	setPC(0);
-	memset(getMemory(),0,getSize());
+	memset(getMemory(), 0, getSize());
 }
 
 void Mops::execute(int location) {
@@ -146,5 +146,45 @@ void Mops::branchRelative(int location) {
 
 void Mops::halt(int location) {
 	cout << "Program halted" << endl;
+}
+
+void Mops::writeToFile() {
+	ofstream file;
+	file.open("mops");
+	file << getPC() << endl;
+	unsigned char* mem = getMemory();
+	for (int i = 0; i < getSize(); i++) {
+
+		int value = *(mem + i);
+		file << i << ":" << value << endl;
+	}
+	file.close();
+}
+
+void Mops::readFromFile() {
+
+	ifstream file;
+	string line;
+	file.open("mops");
+	if (file.is_open()) {
+
+		getline(file, line);
+
+		int pc = convertStringToInt(line);
+		setPC(pc);
+
+		vector<string> tokens;
+		while (getline(file, line)) {
+			tokens = split(line, ":");
+
+			int add = convertStringToInt(tokens[0]);
+			int value = convertStringToInt(tokens[1]);
+
+			*(getMemory() + add) = value;
+		}
+	} else {
+		cerr << "File is either not exist or corrupted" << endl;
+	}
+	file.close();
 }
 

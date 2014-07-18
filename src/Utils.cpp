@@ -29,11 +29,25 @@ int convertHexToInt(string s){
 	return value;
 }
 
-string convertIntToHexString(int value){
+string convertIntToHexString(int value, int width){
 	stringstream ss;
-	ss << setw(2) << setfill('0') << hex << value;
+	ss << setw(width) << setfill('0') << hex << value;
 	return ss.str();
 }
+
+int convertStringToInt(string input){
+	stringstream ss(input);
+	int value = 0;
+	ss >> value;
+	return value;
+}
+
+vector<string> split(string s, string delim){
+	vector<string> elements;
+	elements = boost::split(elements,s,boost::is_any_of(delim));
+	return elements;
+}
+
 
 char convertToLowerCase(char input){
 	return tolower(input);

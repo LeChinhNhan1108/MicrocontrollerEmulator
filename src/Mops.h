@@ -31,7 +31,8 @@ public:
 	};
 	void reset();
 	void execute(int location);
-
+	void writeToFile();
+	void readFromFile();
 };
 
 

@@ -74,8 +74,20 @@ int main() {
 			break;
 		case 'q':
 			break;
+		case 'w':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				writeToFile(*mcontroller);
+			break;
+		case 'z':
+			if (mcontroller == NULL)
+				cerr << "Micro controller is not connected" << endl;
+			else
+				readFromFile(*mcontroller);
+			break;
 		default:
-			cerr << "Wrong command. Try again " << (int) input << endl;
+			cerr << "Wrong command. Try again " << endl;
 			break;
 		}
 	}

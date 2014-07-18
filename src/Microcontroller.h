@@ -29,7 +29,7 @@ public:
 		return msize;
 	}
 	string getStatusString() {
-		statusString = "Program counter is at " + convertIntToHexString(pc);
+		statusString = "Program counter is at 0x" + convertIntToHexString(pc);
 		return statusString;
 	}
 	void setStatusString(string ss) {
@@ -51,10 +51,10 @@ public:
 	virtual ~Microcontroller() {
 		delete[] memory;
 	}
-	virtual void reset() {
-	}
-	virtual void execute(int location) {
-	}
+	virtual void reset() {}
+	virtual void execute(int location) {}
+	virtual void writeToFile(){};
+	virtual void readFromFile(){};
 };
 
 #endif /* MICROCONTROLLER_H_ */

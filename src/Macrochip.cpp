@@ -157,3 +157,11 @@ void Macrochip::branchNotEqual(int location) {
 void Macrochip::halt(int location) {
 	cout << "Program halted" << endl;
 }
+
+void Macrochip::writeToFile(){
+	cout << "Macro chip write file" << endl;
+}
+void Macrochip::readFromFile(){
+	cout << "Macro chip read file" << endl;
+}
+

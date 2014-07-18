@@ -159,11 +159,20 @@ void displayPCAndRegister(Microcontroller& mcontroller) {
 				<< convertIntToHexString(macro->getW()) << endl;
 	} else if (rotamola != NULL) {
 		cout << mcontroller.getStatusString() << " -- Register A Value 0x"
-				<< convertIntToHexString(rotamola->getA()) << " -- Register B Value 0x"
+				<< convertIntToHexString(rotamola->getA())
+				<< " -- Register B Value 0x"
 				<< convertIntToHexString(rotamola->getB()) << endl;
 	} else {
 		cout << mcontroller.getStatusString() << endl;
 	}
 
+}
+
+void writeToFile(Microcontroller& mcontroller) {
+	mcontroller.writeToFile();
+}
+
+void readFromFile(Microcontroller& mcontroller) {
+	mcontroller.readFromFile();
 }
 

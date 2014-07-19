@@ -8,9 +8,9 @@
 #include "Mops.h"
 
 void Mops::reset() {
-	cout << "Mops reset " << endl;
 	setPC(0);
 	memset(getMemory(), 0, getSize());
+	cout << "Mops reset successfully" << endl;
 }
 
 void Mops::execute(int location) {
@@ -158,6 +158,7 @@ void Mops::writeToFile() {
 		int value = *(mem + i);
 		file << i << ":" << value << endl;
 	}
+	cout << "Write successfully" << endl;
 	file.close();
 }
 
@@ -182,6 +183,7 @@ void Mops::readFromFile() {
 
 			*(getMemory() + add) = value;
 		}
+		cout << "Load successfully" << endl;
 	} else {
 		cerr << "File is either not exist or corrupted" << endl;
 	}

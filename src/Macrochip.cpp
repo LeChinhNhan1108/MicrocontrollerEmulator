@@ -10,6 +10,7 @@
 void Macrochip::reset() {
 	setPC(0);
 	setW(0);
+	cout << "Macrochip reset successfully" << endl;
 }
 
 void Macrochip::execute(int location) {
@@ -158,10 +159,49 @@ void Macrochip::halt(int location) {
 	cout << "Program halted" << endl;
 }
 
-void Macrochip::writeToFile(){
-	cout << "Macro chip write file" << endl;
+void Macrochip::writeToFile() {
+	ofstream file;
+	file.open("macro");
+
+	file << getPC() << endl;
+	file << getW() << endl;
+
+	unsigned char* mem = getMemory();
+	for (int i = 0; i < getSize(); i++) {
+
+		int value = *(mem + i);
+		file << i << ":" << value << endl;
+	}
+	cout << "Write successfully" << endl;
+	file.close();
 }
-void Macrochip::readFromFile(){
-	cout << "Macro chip read file" << endl;
+void Macrochip::readFromFile() {
+	ifstream file;
+	string line;
+	file.open("macro");
+	if (file.is_open()) {
+
+		getline(file, line);
+		int pc = convertStringToInt(line);
+		setPC(pc);
+
+		getline(file, line);
+		int w = convertStringToInt(line);
+		setW(w);
+
+		vector<string> tokens;
+		while (getline(file, line)) {
+			tokens = split(line, ":");
+
+			int add = convertStringToInt(tokens[0]);
+			int value = convertStringToInt(tokens[1]);
+
+			*(getMemory() + add) = value;
+		}
+		cout << "Load successfully" << endl;
+	} else {
+		cerr << "File is either not exist or corrupted" << endl;
+	}
+	file.close();
 }
 

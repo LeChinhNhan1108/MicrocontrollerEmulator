@@ -9,6 +9,7 @@
 
 void Rotamola::reset() {
 	setPC(509);
+	cout << "Rotamola reset successfully" << endl;
 }
 
 void Rotamola::execute(int location) {
@@ -166,14 +167,55 @@ void Rotamola::halt(int location) {
 	cout << "Program halted" << endl;
 }
 
+void Rotamola::writeToFile() {
+	ofstream file;
+	file.open("rotamola");
 
-void Rotamola::writeToFile(){
-	cout << "Rotamola write file " << endl;
+	file << getPC() << endl;
+	file << getA() << endl;
+	file << getB() << endl;
+
+	unsigned char* mem = getMemory();
+	for (int i = 0; i < getSize(); i++) {
+
+		int value = *(mem + i);
+		file << i << ":" << value << endl;
+	}
+	cout << "Write successfully" << endl;
+	file.close();
 }
 
-void Rotamola::readFromFile(){
-	cout << "Rotamola read file " << endl;
+void Rotamola::readFromFile() {
+	ifstream file;
+	string line;
+	file.open("rotamola");
+	if (file.is_open()) {
+
+		getline(file, line);
+		int pc = convertStringToInt(line);
+		setPC(pc);
+
+		getline(file, line);
+		int a = convertStringToInt(line);
+		setA(a);
+
+		getline(file, line);
+		int b = convertStringToInt(line);
+		setA(b);
+
+		vector<string> tokens;
+		while (getline(file, line)) {
+			tokens = split(line, ":");
+
+			int add = convertStringToInt(tokens[0]);
+			int value = convertStringToInt(tokens[1]);
+
+			*(getMemory() + add) = value;
+		}
+		cout << "Load successfully" << endl;
+	} else {
+		cerr << "File is either not exist or corrupted" << endl;
+	}
+	file.close();
 }
-
-
 

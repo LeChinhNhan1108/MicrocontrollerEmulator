@@ -24,7 +24,7 @@ Microcontroller* connectToMicrocontroller() {
 		valid = true;
 
 		if (micro_type == "r500") {
-			cout << "#R500 selected" << endl;
+			cout << "R500 selected" << endl;
 			return new Mops;
 		} else if (micro_type == "pic32f42") {
 			cout << "PIC32F42 selected" << endl;

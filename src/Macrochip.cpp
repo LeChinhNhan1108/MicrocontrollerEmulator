@@ -51,7 +51,12 @@ void Macrochip::moveToW(int location) {
 		return;
 	}
 
-	setW(*(getMemory() + location + 1));
+	int value = *(getMemory() + location + 1);
+
+	setW(value);
+
+	cout << "Move " << convertIntToHexString(value) << "to W" << endl;
+
 	setPC(location + 2);
 	execute(getPC());
 }
@@ -74,6 +79,8 @@ void Macrochip::moveWToMemory(int location) {
 
 	*(getMemory() + address) = getW();
 
+	cout << "Move W: " << convertIntToHexString(getW()) << " to memory" << endl;
+
 	setPC(destination);
 	execute(getPC());
 }
@@ -91,6 +98,7 @@ void Macrochip::addToW(int location) {
 		result -= 256;
 
 	setW(result);
+	cout << "Set W: " << convertIntToHexString(result) << endl;
 
 	setPC(destination);
 	execute(getPC());
@@ -110,6 +118,7 @@ void Macrochip::substractFromW(int location) {
 		result = 0;
 
 	setW(result);
+	cout << "Subtract " << convertIntToHexString(value) << " from W. Result " << result << endl;
 
 	setPC(destination);
 	execute(getPC());
@@ -132,6 +141,8 @@ void Macrochip::alwaysBranch(int location) {
 	}
 
 	setPC(address);
+	cout << "Always branch to " << convertIntToHexString(address) << endl;
+
 	execute(getPC());
 
 }
@@ -151,7 +162,9 @@ void Macrochip::branchNotEqual(int location) {
 		return;
 	}
 
-	setPC(address);
+	setPC(finalDestination);
+	cout << "Branch not equal to " << convertIntToHexString(finalDestination) << endl;
+
 	execute(getPC());
 }
 

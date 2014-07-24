@@ -42,8 +42,6 @@ void Mops::execute(int location) {
 }
 
 void Mops::add(int location) {
-	cout << "Mops add from " << location << endl;
-
 	int destination = location + 4;
 	if (destination > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
@@ -68,14 +66,14 @@ void Mops::add(int location) {
 
 	*(getMemory() + address) = result;
 
+	cout << "Add to " << convertIntToHexString(address) << " value " << result << endl;
+
 	setPC(destination);
 	execute(getPC());
 
 }
 
 void Mops::substract(int location) {
-	cout << "Mops minus from " << location << endl;
-
 	int destination = location + 4;
 	if (destination > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
@@ -99,6 +97,9 @@ void Mops::substract(int location) {
 		result = 0;
 
 	*(getMemory() + address) = result;
+
+	cout << "Subtract from " << convertIntToHexString(address) << " value " << result << endl;
+
 	setPC(destination);
 	execute(getPC());
 }
@@ -118,6 +119,8 @@ void Mops::alwaysBranch(int location) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
 		return;
 	}
+
+	cout << "Always branch to " << convertIntToHexString(address) << endl;
 
 	setPC(address);
 	execute(getPC());
@@ -139,6 +142,8 @@ void Mops::branchRelative(int location) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
 		return;
 	}
+
+	cout << "Branch relative to " << convertIntToHexString(currentPc + value) << endl;
 
 	setPC(currentPc + value);
 	execute(getPC());

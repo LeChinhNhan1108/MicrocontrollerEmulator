@@ -67,6 +67,8 @@ void Rotamola::moveAToMem(int location) {
 
 	*(getMemory() + address) = getA();
 
+	cout << "Move " <<  convertIntToHexString(getA()) << " to " << convertIntToHexString(address) << endl;
+
 	setPC(destination);
 	execute(getPC());
 
@@ -77,7 +79,11 @@ void Rotamola::loadA(int location) {
 		return;
 	}
 
-	setA(*(getMemory() + location + 1));
+	int value = *(getMemory() + location + 1);
+	setA(value);
+
+	cout << "Load " << convertIntToHexString(value) << " to A" << endl;
+
 	setPC(location + 2);
 	execute(getPC());
 }
@@ -87,11 +93,15 @@ void Rotamola::loadB(int location) {
 		return;
 	}
 
-	setB(*(getMemory() + location + 1));
+	int value = *(getMemory() + location + 1);
+	setB(value);
+
+	cout << "Load " << convertIntToHexString(value) << " to A" << endl;
+
 	setPC(location + 2);
 	execute(getPC());
-
 }
+
 void Rotamola::increaseA(int location) {
 	if (location + 1 > getSize()) {
 		cerr << "SIGWEED. Program executed past top of memory" << endl;
@@ -105,6 +115,9 @@ void Rotamola::increaseA(int location) {
 		result = 0;
 
 	setA(result);
+
+	cout << "A increase " << result << endl;
+
 	setPC(location + 1);
 	execute(getPC());
 
@@ -125,6 +138,9 @@ void Rotamola::alwaysBranch(int location) {
 	}
 
 	setPC(address);
+
+	cout << "Always branch to " << convertIntToHexString(address) << endl;
+
 	execute(getPC());
 }
 void Rotamola::branchIfALessThanB(int location) {
@@ -141,7 +157,10 @@ void Rotamola::branchIfALessThanB(int location) {
 		return;
 	}
 
-	setPC(address);
+	setPC(finalDestination);
+
+	cout << "Branch to " << convertIntToHexString(finalDestination) << endl;
+
 	execute(getPC());
 }
 void Rotamola::branchIfLessThanA(int location) {
@@ -160,7 +179,10 @@ void Rotamola::branchIfLessThanA(int location) {
 		return;
 	}
 
-	setPC(address);
+	setPC(finalDestination);
+
+	cout << "Branch to " << convertIntToHexString(finalDestination) << endl;
+
 	execute(getPC());
 }
 void Rotamola::halt(int location) {

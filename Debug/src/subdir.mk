@@ -11,6 +11,14 @@ CPP_SRCS += \
 ../src/Rotamola.cpp \
 ../src/Utils.cpp 
 
+O_SRCS += \
+../src/Facade.o \
+../src/Macrochip.o \
+../src/MicrocontrollerEmulator.o \
+../src/Mops.o \
+../src/Rotamola.o \
+../src/Utils.o 
+
 OBJS += \
 ./src/Facade.o \
 ./src/Macrochip.o \

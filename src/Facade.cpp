@@ -47,9 +47,9 @@ void displayAllMemory(Microcontroller& mcontroller) {
 
 	for (int i = 0; i < mcontroller.getSize(); i += 16) {
 		if (i % 16 == 0) {
-			cout << setw(4) << setfill('0') << convertIntToHexString(i) << "  ";
+			cout << setw(4) << setfill('0') << right << convertIntToHexString(i) << "  ";
 			for (int j = 0; j < 16; j++) {
-				cout << setw(2) << setfill('0')
+				cout << setw(2) << setfill('0') << right
 						<< convertIntToHexString(*(memory + i + j)) << " ";
 				if (j == 7)
 					cout << " ";
@@ -80,7 +80,7 @@ void displayHelp() {
 	int width1 = 4;
 	int width2 = 50;
 	cout << "---------------------------------------------------" << endl;
-	cout << setw(width1) << left << "c" << setw(width2) << left
+	cout << setw(width1) << setfill(' ') << left << "c" << setw(width2) << left
 			<< "# connect to micro-controller ('create')" << endl;
 	cout << setw(width1) << left << "d" << setw(width2) << left
 			<< "# display all memory" << endl;
@@ -98,6 +98,10 @@ void displayHelp() {
 			<< "# reset micro-controller" << endl;
 	cout << setw(width1) << left << "s" << setw(width2) << left
 			<< "# display PC and register ('status')" << endl;
+	cout << setw(width1) << left << "w" << setw(width2) << left
+				<< "# save the micro controller to file" << endl;
+	cout << setw(width1) << left << "z" << setw(width2) << left
+				<< "# load the micro controller to program" << endl;
 	cout << setw(width1) << left << "q" << setw(width2) << left
 			<< "# quit the program" << endl;
 	cout << "---------------------------------------------------" << endl;
